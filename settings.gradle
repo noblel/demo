@@ -1,0 +1,6 @@
+include ':opencv'
+include ':xhook'
+include ':thread-hook'
+include ':ffmpeg'
+include ':app'
+rootProject.name = "demo"
