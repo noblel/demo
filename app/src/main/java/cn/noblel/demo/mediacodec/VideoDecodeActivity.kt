@@ -1,23 +1,53 @@
 package cn.noblel.demo.mediacodec
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import cn.noblel.demo.R
 
 class VideoDecodeActivity : AppCompatActivity(), SurfaceHolder.Callback {
+    companion object {
+        const val REQUEST_PERMISSION_OK = 0x1
+    }
 
     private var mSurfaceView: SurfaceView? = null
-    private var mCodecThread: MediaCodecThread? = null
-    private var mVideoPath = "https://upos-sz-mirrorhw.bilivideo.com/upgcxcode/87/69/201056987/201056987-1-16.mp4?e=ig8euxZM2rNcNbdlhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1599753840&gen=playurl&os=hwbv&oi=1700219086&trid=54c66554209e4ec5b0299c7de9fd7f6fh&platform=html5&upsig=fcbb72c5b979bf711b51eae5c22098f5&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,platform&mid=0&logo=80000000"
+    private var mVideoCodecWorker: VideoMediaCodecWorker? = null
+    private var mAudioCodecWorker: AudioMediaCodecWorker? = null
+    private var mVideoPath = "/sdcard/DCIM/Camera/671160acf7f62f9b95a9decb1a970c1a.mp4"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_decode)
         mSurfaceView = findViewById(R.id.surface)
-        mSurfaceView!!.holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         mSurfaceView!!.holder?.addCallback(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkPermission()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_PERMISSION_OK) {
+            if (grantResults.size > 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this,  "存储权限已开通", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this,  "存储权限被拒绝", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private fun checkPermission() {
+        if (ContextCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(READ_EXTERNAL_STORAGE), REQUEST_PERMISSION_OK)
+        }
     }
 
     override fun surfaceCreated(holder: SurfaceHolder?) {
@@ -25,14 +55,20 @@ class VideoDecodeActivity : AppCompatActivity(), SurfaceHolder.Callback {
     }
 
     override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
-        if (mCodecThread == null) {
-            mCodecThread = MediaCodecThread(holder!!.surface, mVideoPath)
-            mCodecThread!!.start()
+        if (mVideoCodecWorker == null) {
+            mVideoCodecWorker = VideoMediaCodecWorker(holder!!.surface, mVideoPath)
+            mVideoCodecWorker!!.start()
+        }
+        if (mAudioCodecWorker == null) {
+            mAudioCodecWorker = AudioMediaCodecWorker(mVideoPath)
+            mAudioCodecWorker!!.start()
         }
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder?) {
-        mCodecThread?.interrupt()
-        mCodecThread?.join()
+        mVideoCodecWorker?.interrupt()
+        mVideoCodecWorker?.join()
+        mAudioCodecWorker?.interrupt()
+        mAudioCodecWorker?.join()
     }
 }

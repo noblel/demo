@@ -6,7 +6,7 @@ import android.media.MediaFormat
 import android.util.Log
 import android.view.Surface
 
-class MediaCodecThread(private val mSurface: Surface, private val mVideoPath: String) : Thread() {
+class VideoMediaCodecWorker(private val mSurface: Surface, private val mVideoPath: String) : Thread() {
     private var mExtractor: MediaExtractor? = null
     private var mCodec: MediaCodec? = null
     override fun run() {
