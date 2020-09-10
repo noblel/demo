@@ -8,4 +8,6 @@ public class FFmpegHelper {
 
     public native static String getConfig();
 
+    public native static String getAvFormatInfo();
+
 }

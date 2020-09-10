@@ -3,6 +3,7 @@
   package="cn.noblel.demo">
 
   <uses-permission android:name="android.permission.CAMERA"/>
+  <uses-permission android:name="android.permission.INTERNET"/>
 
   <application
     android:allowBackup="false"
@@ -30,6 +31,7 @@
     <activity android:name=".bitmap.BitmapActivity" />
     <activity android:name=".texture.TextureViewActivity" />
     <activity android:name=".thread.ThreadHookActivity" />
+    <activity android:name=".mediacodec.VideoDecodeActivity" />
   </application>
 
 </manifest>

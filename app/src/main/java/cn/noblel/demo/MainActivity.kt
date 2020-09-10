@@ -15,6 +15,7 @@ import cn.noblel.demo.ffmpeg.FFmpegActivity
 import cn.noblel.demo.gl.GLViewActivity
 import cn.noblel.demo.gl.preview.GLPreviewActivity
 import cn.noblel.demo.layout.LayoutActivity
+import cn.noblel.demo.mediacodec.VideoDecodeActivity
 import cn.noblel.demo.surface.SurfaceViewActivity
 import cn.noblel.demo.texture.CameraTextureActivity
 import cn.noblel.demo.texture.TextureViewActivity
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity() {
             add(ActivityInfoItem("CameraTexture", CameraTextureActivity::class.java))
             add(ActivityInfoItem("TextureView", TextureViewActivity::class.java))
             add(ActivityInfoItem("ViewPager", ViewPagerActivity::class.java))
+            add(ActivityInfoItem("VideoDecode", VideoDecodeActivity::class.java))
         }
     }
 

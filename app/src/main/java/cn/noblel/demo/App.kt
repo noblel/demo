@@ -11,7 +11,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         KOOM.init(this)
-
     }
 
     override fun onLowMemory() {
