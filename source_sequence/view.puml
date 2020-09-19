@@ -1,0 +1,15 @@
+@startuml
+AMS -> ActivityThread: handleLaunchActivity()
+ActivityThread -> ActivityThread: performLaunchActivity()
+ActivityThread -> Activity: OnCreate()
+Activity -> Activity: setContentView()
+Activity -> PhoneWindow: setContentView()
+PhoneWindow -> PhoneWindow: installDecor()
+ActivityThread -> ActivityThread: handleResumeActivity()
+ActivityThread -> Activity: getWindow()
+ActivityThread -> PhoneWindow: getDecorWindow()
+ActivityThread -> Activity: getWindowManager()
+ActivityThread -> LocalWindowManager: addView()
+LocalWindowManager -> WindowManagerImpl: addView()
+WindowManagerImpl -> ViewRootImpl: setView()
+@enduml
