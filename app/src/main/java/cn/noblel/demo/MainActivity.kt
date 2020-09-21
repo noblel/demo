@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.noblel.demo.bitmap.BitmapActivity
+import cn.noblel.demo.custom.CustomViewActivity
 import cn.noblel.demo.ffmpeg.FFmpegActivity
 import cn.noblel.demo.gl.GLViewActivity
 import cn.noblel.demo.gl.preview.GLPreviewActivity
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity() {
             add(ActivityInfoItem("TextureView", TextureViewActivity::class.java))
             add(ActivityInfoItem("ViewPager", ViewPagerActivity::class.java))
             add(ActivityInfoItem("VideoDecode", VideoDecodeActivity::class.java))
+            add(ActivityInfoItem("CustomView", CustomViewActivity::class.java))
         }
     }
 
