@@ -1,0 +1,21 @@
+@startuml
+
+abstract class Context
+class ContextImpl
+class ContextWrapper {
+  Context mBase
+}
+abstract class Service
+class Application
+class ContextThemeWrapper {
+    Resources mResources
+}
+Context <|-- ContextWrapper
+Context <|-- ContextImpl
+ContextWrapper *- ContextImpl : mBase的实现
+ContextWrapper <|-- ContextThemeWrapper
+ContextWrapper <|-- Application
+ContextWrapper <|-- Service
+ContextThemeWrapper <|-- Activity
+
+@enduml
