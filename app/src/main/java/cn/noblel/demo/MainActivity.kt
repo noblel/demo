@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import cn.noblel.demo.animation.AnimationActivity
 import cn.noblel.demo.bitmap.BitmapActivity
 import cn.noblel.demo.custom.CustomViewActivity
 import cn.noblel.demo.ffmpeg.FFmpegActivity
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
             add(ActivityInfoItem("ViewPager", ViewPagerActivity::class.java))
             add(ActivityInfoItem("VideoDecode", VideoDecodeActivity::class.java))
             add(ActivityInfoItem("CustomView", CustomViewActivity::class.java))
+            add(ActivityInfoItem("Animation", AnimationActivity::class.java))
         }
     }
 

@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">demo</string>
+  <string name="app_name">demo</string>
   <string name="play">play</string>
   <string name="switch_camera">switch camera</string>
   <string name="test_hook">create new thread</string>
   <string name="seek_bar">SeekBar</string>
+  <string name="photo">photo</string>
 </resources>
