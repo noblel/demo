@@ -11,9 +11,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import cn.noblel.demo.R
+import cn.noblel.demo.base.BaseActivity
 import cn.noblel.demo.texture.CameraTextureActivity
 import cn.noblel.demo.utils.Rotation
 import java.io.IOException
@@ -22,7 +22,7 @@ import java.io.IOException
  * @author noblel
  * @date 2020/9/8
  */
-class GLPreviewActivity : AppCompatActivity() {
+class GLPreviewActivity : BaseActivity() {
     private var mRenderer: CameraRenderer? = null
     private var mGlSurfaceView: GLSurfaceView? = null
     private var mCamera: Camera? = null

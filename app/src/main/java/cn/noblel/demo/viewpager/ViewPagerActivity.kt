@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -13,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import cn.noblel.demo.R
+import cn.noblel.demo.base.BaseActivity
 import com.google.android.material.tabs.TabLayout
 import java.util.*
 
@@ -20,7 +20,7 @@ import java.util.*
  * @author noblel
  * @date 2020/9/8
  */
-class ViewPagerActivity : AppCompatActivity() {
+class ViewPagerActivity : BaseActivity() {
     private var demoCollectionPagerAdapter: DemoCollectionPagerAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

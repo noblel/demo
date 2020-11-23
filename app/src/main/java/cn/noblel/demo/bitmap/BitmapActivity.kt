@@ -4,8 +4,8 @@ import android.graphics.*
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import cn.noblel.demo.R
+import cn.noblel.demo.base.BaseActivity
 import org.opencv.android.Utils
 import org.opencv.core.CvType
 import org.opencv.core.Mat
@@ -18,7 +18,7 @@ import java.util.ArrayList
  * @author noblel
  * @date 2020/9/9
  */
-class BitmapActivity : AppCompatActivity() {
+class BitmapActivity : BaseActivity() {
     companion object {
         init {
             System.loadLibrary("opencv_java3")
@@ -29,7 +29,7 @@ class BitmapActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bitmap)
         val imageView = findViewById<ImageView>(R.id.iv_test)
-        Thread(Runnable {
+        Thread {
             val src = BitmapFactory.decodeResource(resources, R.drawable.sample)
             val mask = BitmapFactory.decodeResource(resources, R.drawable.mask)
             val maskWidth = 256
@@ -45,7 +45,7 @@ class BitmapActivity : AppCompatActivity() {
                 imageView.visibility = View.VISIBLE
                 imageView.setImageBitmap(dst)
             }
-        }).start()
+        }.start()
     }
 
     private fun getBound(bitmap: Bitmap, scale: Float, bb_width: Float, bb_height: Float): Rect {

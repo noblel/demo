@@ -3,15 +3,15 @@ package cn.noblel.demo.thread
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import cn.noblel.demo.R
+import cn.noblel.demo.base.BaseActivity
 import cn.noblel.threadhook.ThreadHook
 
 /**
  * @author noblel
  * @date 2020/9/9
  */
-class ThreadHookActivity : AppCompatActivity() {
+class ThreadHookActivity : BaseActivity() {
     init {
         System.loadLibrary("thread-hook")
     }

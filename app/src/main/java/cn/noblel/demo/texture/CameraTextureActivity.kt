@@ -9,15 +9,15 @@ import android.os.Bundle
 import android.view.TextureView
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import cn.noblel.demo.R
+import cn.noblel.demo.base.BaseActivity
 
 /**
  * @author noblel
  * @date 2020/9/8
  */
-class CameraTextureActivity : AppCompatActivity() {
+class CameraTextureActivity : BaseActivity() {
     private var mCameraView: TextureView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

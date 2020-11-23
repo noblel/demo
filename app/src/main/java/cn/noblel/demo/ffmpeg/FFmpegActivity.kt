@@ -3,15 +3,15 @@ package cn.noblel.demo.ffmpeg
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import cn.noblel.demo.R
+import cn.noblel.demo.base.BaseActivity
 import cn.noblel.ffmpeg.FFmpegHelper
 
 /**
  * @author noblel
  * @date 2020/9/8
  */
-class FFmpegActivity : AppCompatActivity() {
+class FFmpegActivity : BaseActivity() {
     companion object {
         private const val TAG = "FFmpegActivity"
 

@@ -6,14 +6,14 @@ import android.os.Bundle
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import cn.noblel.demo.R
+import cn.noblel.demo.base.BaseActivity
 
 /**
  * @author noblel
  * @date 2020/9/8
  */
-class SurfaceViewActivity : AppCompatActivity() {
+class SurfaceViewActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

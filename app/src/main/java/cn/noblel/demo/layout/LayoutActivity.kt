@@ -2,18 +2,18 @@ package cn.noblel.demo.layout
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import cn.noblel.demo.R
+import cn.noblel.demo.base.BaseActivity
 
 /**
  * @author noblel
  * @date 2020/9/8
  */
-class LayoutActivity : AppCompatActivity() {
+class LayoutActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_layout)

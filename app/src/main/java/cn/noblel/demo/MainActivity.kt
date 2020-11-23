@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.noblel.demo.animation.AnimationActivity
+import cn.noblel.demo.base.BaseActivity
 import cn.noblel.demo.bitmap.BitmapActivity
 import cn.noblel.demo.custom.CustomViewActivity
 import cn.noblel.demo.ffmpeg.FFmpegActivity
@@ -29,7 +29,7 @@ import java.util.*
  * @author noblel
  * @date 2020/9/8
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     private val mActivityInfoItems: ArrayList<ActivityInfoItem?> = object : ArrayList<ActivityInfoItem?>() {
         init {
             add(ActivityInfoItem("Bitmap", BitmapActivity::class.java))
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    internal class ActivityInfoItem(val info: String, activity: Class<out Activity?>) {
+    class ActivityInfoItem(val info: String, activity: Class<out Activity?>) {
         val activity: Class<*>
 
         init {

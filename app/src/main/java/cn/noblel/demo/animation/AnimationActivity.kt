@@ -9,12 +9,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.transition.*
 import cn.noblel.demo.R
+import cn.noblel.demo.base.BaseActivity
 
-class AnimationActivity : AppCompatActivity() {
+class AnimationActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_animation)

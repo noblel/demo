@@ -6,12 +6,12 @@ import android.os.Bundle
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import cn.noblel.demo.R
+import cn.noblel.demo.base.BaseActivity
 
-class VideoDecodeActivity : AppCompatActivity(), SurfaceHolder.Callback {
+class VideoDecodeActivity : BaseActivity(), SurfaceHolder.Callback {
     companion object {
         const val REQUEST_PERMISSION_OK = 0x1
     }
