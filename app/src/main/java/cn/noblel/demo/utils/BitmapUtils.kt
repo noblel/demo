@@ -23,15 +23,11 @@ fun createImageTexture(bmp: Bitmap?): Int {
         return 0
     }
     GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandles[0])
-    // 设置缩小过滤为三线性过滤
-    GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR_MIPMAP_LINEAR)
-    // 设置放大过滤为双线性过滤
+    GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_REPEAT.toFloat())
+    GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_REPEAT.toFloat())
+    GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR)
     GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR)
-    // 加载纹理到 OpenGL，读入 Bitmap 定义的位图数据，并把它复制到当前绑定的纹理对象
-    GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE.toFloat())
-    GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE.toFloat())
     GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bmp, 0)
     GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D)
-    GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0)
     return textureHandles[0]
 }

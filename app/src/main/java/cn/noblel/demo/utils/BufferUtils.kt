@@ -16,3 +16,11 @@ fun createFloatBuffer(data: FloatArray): FloatBuffer {
     floatBuffer.position(0)
     return floatBuffer
 }
+
+fun createByteBuffer(data: ByteArray): ByteBuffer {
+    val byteBuffer = ByteBuffer.allocateDirect(data.size * 4)
+    byteBuffer.order(ByteOrder.nativeOrder())
+    byteBuffer.put(data)
+    byteBuffer.position(0)
+    return byteBuffer
+}

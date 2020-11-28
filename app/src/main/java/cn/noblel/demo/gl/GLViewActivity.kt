@@ -3,6 +3,7 @@ package cn.noblel.demo.gl
 import android.opengl.GLSurfaceView
 import android.os.Bundle
 import cn.noblel.demo.base.BaseActivity
+import cn.noblel.demo.gl.cube.CubeGLSurfaceView
 
 /**
  * @author noblel
@@ -12,7 +13,7 @@ class GLViewActivity : BaseActivity() {
     private lateinit var mGLSurfaceView: GLSurfaceView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mGLSurfaceView = MyGLSurfaceView(this)
+        mGLSurfaceView = CubeGLSurfaceView(this)
         setContentView(mGLSurfaceView)
     }
 
