@@ -8,9 +8,6 @@ import cn.noblel.demo.utils.createFloatBuffer
 import cn.noblel.demo.utils.createImageTexture
 import cn.noblel.demo.utils.loadShader
 import java.io.InputStreamReader
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
-import java.nio.ShortBuffer
 
 /**
  * @author noblel
@@ -28,32 +25,59 @@ class Cube(context: Context, tex1: Bitmap, tex2: Bitmap, private val width: Int,
     private var projection = FloatArray(16)
 
     private val vertices = floatArrayOf(
-            // positions
-            0.5f, 0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f,
-            -0.5f, 0.5f, 0.0f,
+            -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+            0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
+            0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+            0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+            -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+            -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+
+            -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+            0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+            0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+            0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+            -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
+            -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+
+            -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+            -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+            -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+            -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+            -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+            -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+
+            0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+            0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+            0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+            0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+            0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+            0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+
+            -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+            0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
+            0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+            0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+            -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+            -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+
+            -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+            0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+            0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+            0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+            -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
+            -0.5f, 0.5f, -0.5f, 0.0f, 1.0f
     )
     private val vertexBuffer = createFloatBuffer(vertices)
-
-    private val texCoord = floatArrayOf(
-            // texture coords
-            1.0f, 1.0f, // top right
-            1.0f, 0.0f, // bottom right
-            0.0f, 0.0f, // bottom left
-            0.0f, 1.0f  // top left
-    )
-
-    private val texCoordBuffer = createFloatBuffer(texCoord)
-    private val drawOrder = shortArrayOf(0, 1, 3, 1, 2, 3) // order to draw vertices
-    private val drawListBuffer: ShortBuffer
+    private var VAO = intArrayOf(0)
+    private var VBO = intArrayOf(0)
+    private var initFrameDrawingTime = 0L
+    private val rotateSpeed = 1.0f / 10
 
     init {
-        val dlb = ByteBuffer.allocateDirect(drawOrder.size * 2)
-        dlb.order(ByteOrder.nativeOrder())
-        drawListBuffer = dlb.asShortBuffer()
-        drawListBuffer.put(drawOrder)
-        drawListBuffer.position(0)
+        initFrameDrawingTime = System.currentTimeMillis()
+        glEnable(GL_DEPTH_TEST)
+        glGenVertexArrays(1, VAO, 0)
+        glGenBuffers(1, VBO, 0)
         texture1 = createImageTexture(tex1)
         texture2 = createImageTexture(tex2)
         val vertexShader = context.assets.open("cube.vs.glsl").use {
@@ -77,30 +101,47 @@ class Cube(context: Context, tex1: Bitmap, tex2: Bitmap, private val width: Int,
 
     fun draw() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f)
-        glClear(GL_COLOR_BUFFER_BIT)
+        glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
         glActiveTexture(GL_TEXTURE1)
         glBindTexture(GL_TEXTURE_2D, texture1)
         glActiveTexture(GL_TEXTURE2)
         glBindTexture(GL_TEXTURE_2D, texture2)
         glUseProgram(mProgram)
+        glBindBuffer(GL_ARRAY_BUFFER, VBO[0])
+        glBufferData(GL_ARRAY_BUFFER, vertexBuffer.remaining() * 4, vertexBuffer, GL_STATIC_DRAW)
         mPositionHandle = glGetAttribLocation(mProgram, "aPos")
         glEnableVertexAttribArray(mPositionHandle)
-        glVertexAttribPointer(mPositionHandle, 3, GL_FLOAT, false, 3 * 4, vertexBuffer)
+        glVertexAttribPointer(mPositionHandle, 3, GL_FLOAT, false, 5 * 4, 0)
         mTexCoordHandle = glGetAttribLocation(mProgram, "aTexCoord")
         glEnableVertexAttribArray(mTexCoordHandle)
-        glVertexAttribPointer(mTexCoordHandle, 2, GL_FLOAT, false, 2 * 4, texCoordBuffer)
-        Matrix.setIdentityM(model, 0)
-        Matrix.setIdentityM(view, 0)
-        Matrix.setIdentityM(projection, 0)
+        glVertexAttribPointer(mTexCoordHandle, 2, GL_FLOAT, false, 5 * 4, 3 * 4)
         val ratio = width.toFloat() / height
-        Matrix.rotateM(model, 0, -55f, 1.0f, 0.0f, 0.0f)
-        Matrix.translateM(view, 0, 0.0f, 0.0f, -3.0f)
+        val angle = getRotationAngle()
+        Matrix.setIdentityM(model, 0)
+        Matrix.rotateM(model, 0, angle, 0.5f, 1.0f, 0.0f)
+        Matrix.setIdentityM(view, 0)
+        Matrix.translateM(view, 0,  0.0f, 0.0f, -3.0f)
+        Matrix.setIdentityM(projection, 0)
         Matrix.perspectiveM(projection, 0, 45f, ratio, 0.1f, 100f)
         glUniformMatrix4fv(glGetUniformLocation(mProgram, "model"), 1, false, model, 0)
         glUniformMatrix4fv(glGetUniformLocation(mProgram, "view"), 1, false, view, 0)
         glUniformMatrix4fv(glGetUniformLocation(mProgram, "projection"), 1, false, projection, 0)
-        glDrawElements(GL_TRIANGLES, drawOrder.size, GL_UNSIGNED_SHORT, drawListBuffer)
+        glBindVertexArray(VAO[0])
+        glDrawArrays(GL_TRIANGLES, 0, 36)
         glDisableVertexAttribArray(mPositionHandle)
         glDisableVertexAttribArray(mTexCoordHandle)
+    }
+
+    private fun getRotationAngle(): Float {
+        val angle: Float
+        val now = System.currentTimeMillis()
+        if (initFrameDrawingTime == 0L) {
+            angle = 0.0f
+            initFrameDrawingTime = now
+        } else {
+            val deltaTime: Long = now - initFrameDrawingTime
+            angle = deltaTime * rotateSpeed
+        }
+        return angle
     }
 }

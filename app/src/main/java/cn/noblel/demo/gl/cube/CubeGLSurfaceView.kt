@@ -15,7 +15,7 @@ class CubeGLSurfaceView(context: Context) : GLSurfaceView(context) {
 
     init {
         setEGLContextClientVersion(3)
-        setEGLConfigChooser(8, 8, 8, 8, 24, 0)
+        setEGLConfigChooser(8, 8, 8, 8, 16, 0)
         val options = BitmapFactory.Options()
         options.inScaled = false
         options.inPreferredConfig = Bitmap.Config.RGB_565
