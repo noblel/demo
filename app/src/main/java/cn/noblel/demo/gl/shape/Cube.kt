@@ -99,6 +99,19 @@ class Cube(context: Context, tex1: Bitmap, tex2: Bitmap, private val width: Int,
         glUniform1i(texture2Location, texture2)
     }
 
+    private val cubePositions = floatArrayOf(
+            0.0f, 0.0f, 0.0f,
+            2.0f, 5.0f, -15.0f,
+            -1.5f, -2.2f, -2.5f,
+            -3.8f, -2.0f, -12.3f,
+            2.4f, -0.4f, -3.5f,
+            -1.7f, 3.0f, -7.5f,
+            1.3f, -2.0f, -2.5f,
+            1.5f, 2.0f, -2.5f,
+            1.5f, 0.2f, -1.5f,
+            -1.3f, 1.0f, -1.5f
+    )
+
     fun draw() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f)
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
@@ -117,17 +130,20 @@ class Cube(context: Context, tex1: Bitmap, tex2: Bitmap, private val width: Int,
         glVertexAttribPointer(mTexCoordHandle, 2, GL_FLOAT, false, 5 * 4, 3 * 4)
         val ratio = width.toFloat() / height
         val angle = getRotationAngle()
-        Matrix.setIdentityM(model, 0)
-        Matrix.rotateM(model, 0, angle, 0.5f, 1.0f, 0.0f)
         Matrix.setIdentityM(view, 0)
-        Matrix.translateM(view, 0,  0.0f, 0.0f, -3.0f)
+        Matrix.translateM(view, 0, 0.0f, 0.0f, -3.0f)
         Matrix.setIdentityM(projection, 0)
         Matrix.perspectiveM(projection, 0, 45f, ratio, 0.1f, 100f)
-        glUniformMatrix4fv(glGetUniformLocation(mProgram, "model"), 1, false, model, 0)
         glUniformMatrix4fv(glGetUniformLocation(mProgram, "view"), 1, false, view, 0)
         glUniformMatrix4fv(glGetUniformLocation(mProgram, "projection"), 1, false, projection, 0)
         glBindVertexArray(VAO[0])
-        glDrawArrays(GL_TRIANGLES, 0, 36)
+        for (i in 0..9) {
+            Matrix.setIdentityM(model, 0)
+            Matrix.translateM(model, 0, cubePositions[i * 3], cubePositions[i * 3 + 1], cubePositions[i * 3 + 2])
+            Matrix.rotateM(model, 0, angle, 1.0f, 0.3f, 0.5f)
+            glUniformMatrix4fv(glGetUniformLocation(mProgram, "model"), 1, false, model, 0)
+            glDrawArrays(GL_TRIANGLES, 0, 36)
+        }
         glDisableVertexAttribArray(mPositionHandle)
         glDisableVertexAttribArray(mTexCoordHandle)
     }
